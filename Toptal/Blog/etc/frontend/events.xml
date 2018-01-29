@@ -1,0 +1,14 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="controller_action_predispatch">
+        <observer name="toptal_blog_test_observer" instance="Toptal\Blog\Observer\Predispatch" />
+    </event>
+
+    <event name="customer_customer_authenticated">
+        <observer name="toptal_blog_customer_customer_authenticated" instance="Toptal\Blog\Observer\Customer\Authenticated" />
+    </event>
+
+
+    <event name="blog_created">
+        <observer name="toptal_blog_created" instance="Toptal\Blog\Observer\CreateBlog\Created" />
+    </event>
+</config>
