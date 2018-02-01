@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Toptal_Blog::blog" title="Blog" module="Toptal_Blog" sortOrder="50" resource="Toptal_Blog::blog"/>
+        <add id="Toptal_Blog::post" title="Manage Blog" module="Toptal_Blog" sortOrder="11" action="toptal_blog/post" resource="Toptal_Blog::post" parent="Toptal_Blog::blog"/>
+        <add id="Toptal_Blog::blog_configuration" title="Configuration" module="Toptal_Blog" sortOrder="100" parent="Toptal_Blog::blog" action="adminhtml/system_config/edit/section/blog" resource="Toptal_Blog::blog_configuration"/>
+    </menu>
+</config>
+

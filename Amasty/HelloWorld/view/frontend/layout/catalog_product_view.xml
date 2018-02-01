@@ -12,7 +12,9 @@
     </head>
     <body>
         <referenceContainer name="product.info.main">
-            <block name="amasty_helloworld.helloworld" class="Amasty\HelloWorld\Block\Catalog\Product\HelloWorld" before="-" template="product/hello.phtml" />
+            <block name="amasty_helloworld.helloworld"
+                   class="Amasty\HelloWorld\Block\Catalog\Product\HelloWorld"
+                   before="-" template="product/hello.phtml" />
         </referenceContainer>
     </body>
 </page>

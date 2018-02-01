@@ -18,29 +18,32 @@ class InstallSchema implements InstallSchemaInterface
         $installer = $setup;
 
         $installer->startSetup();
-        $table  = $installer->getConnection()
-            ->newTable($installer->getTable('amasty_helloworld'))
-            ->addColumn(
-                'id',
-                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                null,
-                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
-                'Id'
-            )
-            ->addColumn(
-                'label',
-                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-                null,
-                ['default' => null, 'nullable' => false],
-                'Name'
-            )
-            ->addColumn(
-                'value',
-                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-                null,
-                ['default' => null, 'nullable' => false],
-                'Stores'
-            );
+        try {
+            $table = $installer->getConnection()
+                ->newTable($installer->getTable('amasty_helloworld'))
+                ->addColumn(
+                    'id',
+                    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                    null,
+                    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                    'Id'
+                )
+                ->addColumn(
+                    'label',
+                    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    null,
+                    ['default' => null, 'nullable' => false],
+                    'Name'
+                )
+                ->addColumn(
+                    'value',
+                    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    null,
+                    ['default' => null, 'nullable' => false],
+                    'Stores'
+                );
+        } catch (\Zend_Db_Exception $e) {
+        }
         $installer->getConnection()->createTable($table);
         $installer->endSetup();
     }
