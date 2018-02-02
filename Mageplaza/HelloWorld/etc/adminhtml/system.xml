@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../Magento/Config/etc/system_file.xsd">
+    <system>
+        <tab id="mageplaza" translate="label" sortOrder="10">
+            <label>Mega Plaza</label>
+        </tab>
+        <section id="image_option" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <label>Custom Option Image</label>
+            <tab>mageplaza</tab>
+            <resource>Mageplaza_HelloWorld::mageplaza_helloworld</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
+                <label>General</label>
+                <field id="image_size" translate="label comment" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Maximum Image upload size</label>
+                    <comment>
+                        Enter Size in Mb For example: 1.
+                    </comment>
+                </field>
+                <field id="image_width" translate="label" type="text" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Image Width(PX)</label>
+                </field>
+                <field id="image_height" translate="label" type="text" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Image Height(PX)</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

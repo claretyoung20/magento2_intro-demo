@@ -8,7 +8,5 @@
 <div class="amasty-helloworld-block" style="text-align: <?= $this->getTextAlign()?>">
     <h3 class="label"><?= $this->getBlockLabel()?></h3>
     <?=__('Hello World');?>
-    <?php foreach($this->getCollection() as $item):?>
-        <p><label><?= __("Title: ") . $item->getLabel()?></label> -- <label><?=  __("Value: ") . $item->getValue();?></label></p>
-    <?php endforeach;?>
+
 </div>
