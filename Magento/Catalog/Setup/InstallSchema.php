@@ -2404,6 +2404,20 @@ class InstallSchema implements InstallSchemaInterface
                 ['unsigned' => true, 'nullable' => false, 'default' => '0'],
                 'Sort Order'
             )
+            ->addColumn(
+                'quantity',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                64,
+                [],
+                'quantity'
+                )
+            ->addColumn(
+                'color',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                64,
+                [],
+                'color'
+            )
             ->addIndex(
                 $installer->getIdxName('catalog_product_option_type_value', ['option_id']),
                 ['option_id']

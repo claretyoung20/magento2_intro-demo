@@ -937,7 +937,7 @@ class CustomOptions extends AbstractModifier
      * @param int $sortOrder
      * @return array
      */
-    private function getPriceFieldConfigForSelectType(int $sortOrder)
+    protected function getPriceFieldConfigForSelectType(int $sortOrder)
     {
         $priceFieldConfig = $this->getPriceFieldConfig($sortOrder);
         $priceFieldConfig['arguments']['data']['config']['template'] = 'Magento_Catalog/form/field';
