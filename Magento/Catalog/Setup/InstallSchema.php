@@ -2405,11 +2405,11 @@ class InstallSchema implements InstallSchemaInterface
                 'Sort Order'
             )
             ->addColumn(
-                'quantity',
+                'image_name',
                 \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                 64,
                 [],
-                'quantity'
+                'Image Name'
                 )
             ->addColumn(
                 'color',
@@ -2417,6 +2417,13 @@ class InstallSchema implements InstallSchemaInterface
                 64,
                 [],
                 'color'
+            )
+            ->addColumn(
+                'display_mode',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                64,
+                [],
+                'Display Mode'
             )
             ->addIndex(
                 $installer->getIdxName('catalog_product_option_type_value', ['option_id']),

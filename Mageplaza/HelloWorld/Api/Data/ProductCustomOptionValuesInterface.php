@@ -14,12 +14,12 @@ interface ProductCustomOptionValuesInterface extends  \Magento\Catalog\Api\Data\
 {
 
     /**
-     * @param $quantity
+     * @param $image_name
      * @return mixed
      */
-    public function setQuantity($quantity);
+    public function setImageName($image_name);
 
-    public function getQuantity();
+    public function getImageName();
 
     /**
      * @param $color
@@ -28,6 +28,14 @@ interface ProductCustomOptionValuesInterface extends  \Magento\Catalog\Api\Data\
     public function setColor($color);
 
     public function getColor();
+
+    /**
+     * @param $display_mode
+     * @return mixed
+     */
+    public function setDisplayMode($display_mode);
+
+    public function getDisplayMode();
 
 
 }

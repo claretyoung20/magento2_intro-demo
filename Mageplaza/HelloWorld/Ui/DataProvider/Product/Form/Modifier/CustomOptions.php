@@ -24,6 +24,7 @@ use Magento\Ui\Component\Form\Element\ActionDelete;
 use Magento\Ui\Component\Form\Element\DataType\Text;
 use Magento\Ui\Component\Form\Element\DataType\Number;
 use Magento\Framework\Locale\CurrencyInterface;
+use Mageplaza\HelloWorld\Ui\Component\Form\Element\DataType\Color;
 
 
 class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\CustomOptions
@@ -32,8 +33,11 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
      * Field values
      *
      */
-    const FIELD_QTY_NAME = 'quantity';
+    const FIELD_IMAGE_NAME = 'image_name';
     const FIELD_COLOR_NAME = 'color';
+    const FIELD_DISPLAY_NAME = 'display_mode';
+    const FIELD_MODE_COLOR = 'color';
+    const FIELD_MODE_IMAGE = 'image';
 
     /**
      * CustomOptions constructor.
@@ -113,46 +117,22 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
                         static::FIELD_PRICE_TYPE_NAME => $this->getPriceTypeFieldConfig(30, ['fit' => true]),
                         static::FIELD_SKU_NAME => $this->getSkuFieldConfig(40),
                         static::FIELD_SORT_ORDER_NAME => $this->getPositionFieldConfig(50),
-                        static::FIELD_QTY_NAME =>$this->getQtyFieldConfig(55),
+                        static::FIELD_IMAGE_NAME => $this->getImageNameFieldConfig(55),
                         static::FIELD_COLOR_NAME =>$this->getColorFieldConfig(60),
+                        static::FIELD_DISPLAY_NAME => $this->getDisplayNameFieldConfig(65),
                         static::FIELD_IS_DELETE => $this->getIsDeleteFieldConfig(70)
+
                     ]
                 ]
             ]
         ];
     }
 
+
     /**
-     * Get config for "Inventory" fields
-     *
      * @param $sortOrder
-     * @param array $options
      * @return array
      */
-    protected function getQtyFieldConfig($sortOrder, array $options = [])
-    {
-        return array_replace_recursive(
-            [
-                'arguments' => [
-                    'data' => [
-                        'config' => [
-                            'label' => __('Inventory'),
-                            'componentType' => Field::NAME,
-                            'formElement' => Input::NAME,
-                            'dataScope' => static::FIELD_QTY_NAME,
-                            'dataType' => Text::NAME,
-                            'sortOrder' => $sortOrder,
-                            'validation' => [
-                                'validate-digits' => true
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            $options
-        );
-    }
-
     protected function getColorFieldConfig($sortOrder){
         return [
             'arguments' => [
@@ -162,11 +142,62 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
                         'componentType' => Field::NAME,
                         'formElement' => Input::NAME,
                         'dataScope' => static::FIELD_COLOR_NAME,
+                        'dataType' => Color::NAME,
+                        'sortOrder' => $sortOrder,
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @param $sortOrder
+     * @return array
+     */
+    protected function getImageNameFieldConfig($sortOrder){
+        return [
+            'arguments' => [
+                'data' => [
+                    'config' => [
+                        'label' => __('Image'),
+                        'componentType' => Field::NAME,
+                        'formElement' => Input::NAME,
+                        'dataScope' => static::FIELD_IMAGE_NAME,
                         'dataType' => Text::NAME,
                         'sortOrder' => $sortOrder,
                     ],
                 ],
             ],
+        ];
+    }
+
+    /**
+     * @param $sortOrder
+     * @return array
+     */
+    protected function getDisplayNameFieldConfig($sortOrder){
+        return [
+            'arguments' => [
+                'data' => [
+                    'config' => [
+                        'label' => __('Display Mode'),
+                        'componentType' => Field::NAME,
+                        'formElement' => Select::NAME,
+                        'dataScope' => static::FIELD_DISPLAY_NAME,
+                        'dataType' => Text::NAME,
+                        'sortOrder' => $sortOrder,
+                        'options' => $this->toOptionArray(),
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    public function toOptionArray()
+    {
+        return [
+            ['value' => self::FIELD_MODE_IMAGE, 'label' => __('Image')],
+            ['value' => self::FIELD_MODE_COLOR, 'label' => __('Color')],
         ];
     }
 }
