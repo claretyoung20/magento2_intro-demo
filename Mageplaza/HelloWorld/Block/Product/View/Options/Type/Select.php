@@ -9,7 +9,6 @@
 namespace Mageplaza\HelloWorld\Block\Product\View\Options\Type;
 
 
-use Mageplaza\HelloWorld\Api\Data\ProductCustomOptionValuesInterface;
 
 class Select extends \Magento\Catalog\Block\Product\View\Options\Type\Select
 {
@@ -57,7 +56,7 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\Type\Select
                 );
                 $select->addOption(
                     $_value->getOptionTypeId(),
-                    $_value->getTitle() . ' ' . strip_tags($priceStr) . ' + '. $_value->getColor().'',
+                    $_value->getTitle() . ' ' . strip_tags($priceStr).' '.$_value->getColor() ,
                     ['price' => $this->pricingHelper->currencyByStore($_value->getPrice(true), $store, false)]
                 );
             }
@@ -136,7 +135,7 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\Type\Select
                 $selectHtml .= '<div class="field choice admin__field admin__field-option' .
                     $require .
                     '">' .
-                    '<input type="' .
+                    '<input style="margin: 15px" type="' .
                     $type .
                     '" class="' .
                     $class .
@@ -160,14 +159,15 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\Type\Select
                     ' price="' .
                     $this->pricingHelper->currencyByStore($_value->getPrice(true), $store, false) .
                     '" />' .
-                    '<label class="label admin__field-label" for="options_' .
+                    '<label  style="margin: 15px" class="label admin__field-label" for="options_' .
                     $_option->getId() .
                     '_' .
                     $count .
-                    '"><span>' .
+                    '"><span style="margin: 15px">' .
                     $_value->getTitle() .
                     '</span> ' .
                     $priceStr .
+                    $this->getImageColorDisplayMOde($_value->getDisplayMode(), $_value->getImageName() ,$_value->getColor() ).
                     '</label>';
                 $selectHtml .= '</div>';
             }
@@ -175,6 +175,25 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\Type\Select
 
             return $selectHtml;
         }
+    }
+
+    public function getImageColorDisplayMOde($display_mode, $image, $color){
+        $mode = '';
+        $imagePath = '/magento2/pub/media/catalog/product/customOptionImage/';
+
+        if($display_mode == 'color'){
+            $mode .= '<div' .
+                ' style="background-color:'.$color.'; ' .
+                'width: 40px; height: 40px; float: right;"></div>';
+        }
+        else if($display_mode == 'image'){
+            $mode .= '<img src="'.$imagePath.$image.'" style=" width: 40px; height: 40px; float: right;" >';
+        }else{
+            $mode .= '<div' .
+                ' style="background-color:white; ' .
+                'width: 40px; height: 40px; float: right;"></div>';
+        }
+        return $mode;
     }
 
 

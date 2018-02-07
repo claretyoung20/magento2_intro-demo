@@ -20,6 +20,7 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getValuesHtml()
     {
