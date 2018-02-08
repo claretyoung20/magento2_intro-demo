@@ -118,6 +118,7 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
                         static::FIELD_SORT_ORDER_NAME => $this->getPositionFieldConfig(50),
                         static::FIELD_IMAGE_NAME => $this->getImageNameFieldConfig(55),
                         static::FIELD_IMAGE_NAME => $this ->fileUploader(60),
+//                        static::FIELD_IMAGE_NAME => $this ->showImage(65),
                         static::FIELD_COLOR_NAME =>$this->getColorFieldConfig(65),
                         static::FIELD_DISPLAY_NAME => $this->getDisplayNameFieldConfig(70),
                         static::FIELD_IS_DELETE => $this->getIsDeleteFieldConfig(75)
@@ -216,6 +217,23 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
                     ],
                 ],
             ],
+        ];
+    }
+
+    public function  showImage($sortOrder){
+        return ['arguments' => [
+            'data' => [
+                'config' => [
+                    'label' => __('Upload'),
+                    'componentType' => Field::NAME,
+                    'formElement' => File::NAME,
+                    'dataScope' => static::FIELD_IMAGE_NAME,
+                    'sortOrder' => $sortOrder,
+                    'template' => 'Mageplaza_HelloWorld/form/element/showImage',
+                    'component' => 'Mageplaza_HelloWorld/js/form/element/showImage'
+                ],
+            ],
+        ],
         ];
     }
 }

@@ -3,8 +3,10 @@
  * See COPYING.txt for license details.
  */
 define([
+    'jquery',
     'mageUtils',
-    'Magento_Ui/js/form/element/abstract'
+    'Magento_Ui/js/form/element/abstract',
+    'jquery/file-uploader'
 ], function (utils, Abstract) {
     'use strict';
 
