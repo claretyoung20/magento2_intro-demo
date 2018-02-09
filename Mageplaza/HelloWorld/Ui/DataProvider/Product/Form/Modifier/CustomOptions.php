@@ -3,6 +3,7 @@
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Mageplaza\HelloWorld\Ui\DataProvider\Product\Form\Modifier;
 
 
@@ -59,9 +60,26 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
         ArrayManager $arrayManager
     )
     {
-        parent::__construct($locator, $storeManager, $productOptionsConfig, $productOptionsPrice, $urlBuilder,$arrayManager);
+        parent::__construct($locator, $storeManager, $productOptionsConfig, $productOptionsPrice, $urlBuilder, $arrayManager);
     }
 
+    public function showImage($sortOrder)
+    {
+        return ['arguments' => [
+            'data' => [
+                'config' => [
+                    'label' => __('Upload'),
+                    'componentType' => Field::NAME,
+                    'formElement' => File::NAME,
+                    'dataScope' => static::FIELD_IMAGE_NAME,
+                    'sortOrder' => $sortOrder,
+                    'template' => 'Mageplaza_HelloWorld/form/element/showImage',
+                    'component' => 'Mageplaza_HelloWorld/js/form/element/showImage'
+                ],
+            ],
+        ],
+        ];
+    }
 
     protected function getSelectTypeGridConfig($sortOrder)
     {
@@ -86,14 +104,14 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
             'arguments' => [
                 'data' => [
                     'config' => [
-                         'addButtonLabel' => __('Add Value'),
-                         'componentType' => DynamicRows::NAME,
-                         'component' => 'Magento_Ui/js/dynamic-rows/dynamic-rows',
-                         'additionalClasses' => 'admin__field-wide',
-                         'deleteProperty' => static::FIELD_IS_DELETE,
-                         'deleteValue' => '1',
-                         'renderDefaultRecord' => false,
-                         'sortOrder' => $sortOrder,
+                        'addButtonLabel' => __('Add Value'),
+                        'componentType' => DynamicRows::NAME,
+                        'component' => 'Magento_Ui/js/dynamic-rows/dynamic-rows',
+                        'additionalClasses' => 'admin__field-wide',
+                        'deleteProperty' => static::FIELD_IS_DELETE,
+                        'deleteValue' => '1',
+                        'renderDefaultRecord' => false,
+                        'sortOrder' => $sortOrder,
                     ],
                 ],
             ],
@@ -111,15 +129,15 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
                         ],
                     ],
                     'children' => [
-                        static::FIELD_TITLE_NAME => $this->getTitleFieldConfig(10,$this->locator->getProduct()->getStoreId() ? $options : []),
+                        static::FIELD_TITLE_NAME => $this->getTitleFieldConfig(10, $this->locator->getProduct()->getStoreId() ? $options : []),
                         static::FIELD_PRICE_NAME => $this->getPriceFieldConfigForSelectType(20),
                         static::FIELD_PRICE_TYPE_NAME => $this->getPriceTypeFieldConfig(30, ['fit' => true]),
                         static::FIELD_SKU_NAME => $this->getSkuFieldConfig(40),
                         static::FIELD_SORT_ORDER_NAME => $this->getPositionFieldConfig(50),
                         static::FIELD_IMAGE_NAME => $this->getImageNameFieldConfig(55),
-                        static::FIELD_IMAGE_NAME => $this ->fileUploader(60),
+                        static::FIELD_IMAGE_NAME => $this->fileUploader(60),
 //                        static::FIELD_IMAGE_NAME => $this ->showImage(65),
-                        static::FIELD_COLOR_NAME =>$this->getColorFieldConfig(65),
+                        static::FIELD_COLOR_NAME => $this->getColorFieldConfig(65),
                         static::FIELD_DISPLAY_NAME => $this->getDisplayNameFieldConfig(70),
                         static::FIELD_IS_DELETE => $this->getIsDeleteFieldConfig(75)
 
@@ -129,12 +147,57 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
         ];
     }
 
+    public function fileUploader($sortOrder)
+    {
+        return ['arguments' => [
+            'data' => [
+                'config' => [
+                    'label' => __('Upload'),
+                    'componentType' => Field::NAME,
+                    'formElement' => File::NAME,
+                    'dataScope' => static::FIELD_IMAGE_NAME,
+                    'sortOrder' => $sortOrder,
+                    'template' => 'Mageplaza_HelloWorld/form/element/media',
+                    'component' => 'Mageplaza_HelloWorld/js/form/element/media',
+                    'uploaderConfig' => [
+                        'url' => 'Mageplaza/HelloWorld/Controller/Saveimage'
+                    ],
+                ],
+
+            ],
+        ],
+        ];
+    }
 
     /**
      * @param $sortOrder
      * @return array
      */
-    protected function getColorFieldConfig($sortOrder){
+    protected function getImageNameFieldConfig($sortOrder)
+    {
+        return [
+            'arguments' => [
+                'data' => [
+                    'config' => [
+                        'label' => __('Image'),
+                        'componentType' => Field::NAME,
+                        'formElement' => Input::NAME,
+                        'dataScope' => static::FIELD_IMAGE_NAME,
+                        'dataType' => Text::NAME,
+                        'sortOrder' => $sortOrder,
+                    ],
+                ],
+            ],
+        ];
+    }
+
+
+    /**
+     * @param $sortOrder
+     * @return array
+     */
+    protected function getColorFieldConfig($sortOrder)
+    {
         return [
             'arguments' => [
                 'data' => [
@@ -156,28 +219,8 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
      * @param $sortOrder
      * @return array
      */
-    protected function getImageNameFieldConfig($sortOrder){
-        return [
-            'arguments' => [
-                'data' => [
-                    'config' => [
-                        'label' => __('Image'),
-                        'componentType' => Field::NAME,
-                        'formElement' => Input::NAME,
-                        'dataScope' => static::FIELD_IMAGE_NAME,
-                        'dataType' => Text::NAME,
-                        'sortOrder' => $sortOrder,
-                    ],
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * @param $sortOrder
-     * @return array
-     */
-    protected function getDisplayNameFieldConfig($sortOrder){
+    protected function getDisplayNameFieldConfig($sortOrder)
+    {
         return [
             'arguments' => [
                 'data' => [
@@ -200,40 +243,6 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
         return [
             ['value' => self::FIELD_MODE_IMAGE, 'label' => __('Image')],
             ['value' => self::FIELD_MODE_COLOR, 'label' => __('Color')],
-        ];
-    }
-
-    public function  fileUploader($sortOrder){
-        return ['arguments' => [
-            'data' => [
-                'config' => [
-                        'label' => __('Upload'),
-                        'componentType' => Field::NAME,
-                        'formElement' => File::NAME,
-                        'dataScope' => static::FIELD_IMAGE_NAME,
-                        'sortOrder' => $sortOrder,
-                        'template' => 'Mageplaza_HelloWorld/form/element/media',
-                        'component' => 'Mageplaza_HelloWorld/js/form/element/media'
-                    ],
-                ],
-            ],
-        ];
-    }
-
-    public function  showImage($sortOrder){
-        return ['arguments' => [
-            'data' => [
-                'config' => [
-                    'label' => __('Upload'),
-                    'componentType' => Field::NAME,
-                    'formElement' => File::NAME,
-                    'dataScope' => static::FIELD_IMAGE_NAME,
-                    'sortOrder' => $sortOrder,
-                    'template' => 'Mageplaza_HelloWorld/form/element/showImage',
-                    'component' => 'Mageplaza_HelloWorld/js/form/element/showImage'
-                ],
-            ],
-        ],
         ];
     }
 }

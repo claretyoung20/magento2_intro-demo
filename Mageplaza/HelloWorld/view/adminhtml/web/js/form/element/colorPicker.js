@@ -57,6 +57,8 @@ define([
 
             this.exportDataLink = 'data.' + this.prefixName + '.' + this.elementName + suffixName;
             this.exports.value = this.provider + ':' + this.exportDataLink;
+
+            console.log("this.inputName: " + this.exports.value);
         },
 
         /** @inheritdoc */

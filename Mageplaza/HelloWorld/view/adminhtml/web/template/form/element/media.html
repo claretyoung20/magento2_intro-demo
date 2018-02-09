@@ -5,18 +5,20 @@
  */
 -->
 
-    <input class="admin__control-file" type="file" accept="image/*"
-           data-bind="
-            hasFocus: focused,
-            attr: {
-                name: inputName,
-                placeholder: placeholder,
-                'aria-describedby': noticeId,
-                id: uid,
-                disabled: disabled,
-                form: formId
-            }"
-           onchange="uploadOptionImage(this)"
-    />
+<input class="admin__control-file" type="file" id="file" accept="image/*"
+       data-bind="
+        hasFocus: focused,
+        value: value,
+        valueUpdate: 'input',
+        attr: {
+            name: inputName,
+            placeholder: placeholder,
+            'aria-describedby': noticeId,
+            id: uid,
+            disabled: disabled,
+            form: formId
+        },
+            event: {change: uploadOptionImage},
 
-
+        "
+/>

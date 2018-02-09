@@ -3,11 +3,10 @@
  * See COPYING.txt for license details.
  */
 define([
-    'jquery',
     'mageUtils',
     'Magento_Ui/js/form/element/abstract',
-    'jquery/file-uploader'
-], function (utils, Abstract) {
+    'ko'
+], function (utils, Abstract, ko) {
     'use strict';
 
     return Abstract.extend({
@@ -32,6 +31,7 @@ define([
                 inputName: utils.serializeName(name.join('.')),
                 valueUpdate: valueUpdate
             });
+
             return this;
         },
         /**
@@ -62,6 +62,24 @@ define([
             this.formId = namespace[0];
 
             return this;
+        },
+
+        uploadOptionImage: function () {
+            var file     = data.files[0],
+                allowed  = this.isFileAllowed(file),
+                target   = $(e.target);
+
+            if (allowed.passed) {
+                target.on('fileuploadsend', function (event, postData) {
+                    postData.data.append('param_name', this.paramName);
+                }.bind(data));
+
+                target.fileupload('process', data).done(function () {
+                    data.submit();
+                });
+            } else {
+                this.notifyError(allowed.message);
+            }
         }
     });
 });
