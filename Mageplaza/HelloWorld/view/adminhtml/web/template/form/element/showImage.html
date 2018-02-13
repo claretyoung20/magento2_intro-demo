@@ -1,0 +1,22 @@
+
+<input class="admin__control-text" type="text"  data-bind="
+            hasFocus: false,
+            value: value,
+            valueUpdate: 'input',
+            event: {change: getNewFileInfo},
+            attr: {
+                name: inputName,
+                placeholder: placeholder,
+                'aria-describedby': noticeId,
+                id: uid,
+                disabled: disabled
+            }"
+       hidden="true"
+
+/>
+
+<img data-bind="src: value,
+                attr: {
+                    src: value,
+                    id: 'image-'+uid
+                }" width="40px" height="40px">
