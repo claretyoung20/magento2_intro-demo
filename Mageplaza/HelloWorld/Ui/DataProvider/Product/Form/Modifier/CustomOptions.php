@@ -135,8 +135,11 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
                         static::FIELD_PRICE_TYPE_NAME => $this->getPriceTypeFieldConfig(30, ['fit' => true]),
                         static::FIELD_SKU_NAME => $this->getSkuFieldConfig(40),
                         static::FIELD_SORT_ORDER_NAME => $this->getPositionFieldConfig(50),
-                        static::FIELD_IMAGE_NAME => $this->getImageNameFieldConfig(55),
-                        static::FIELD_UPLOADER => $this->fileUploader(60),
+
+
+                        static::FIELD_UPLOADER => $this->fileUploader(55),
+                        static::FIELD_IMAGE_NAME => $this->getImageUrl(60),
+
                         static::FIELD_COLOR_NAME => $this->getColorFieldConfig(65),
                         static::FIELD_DISPLAY_NAME => $this->getDisplayNameFieldConfig(70),
                         static::FIELD_IS_DELETE => $this->getIsDeleteFieldConfig(75)
@@ -149,23 +152,47 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
 
     public function fileUploader($sortOrder)
     {
-        return ['arguments' => [
-            'data' => [
-                'config' => [
-                    'label' => __('Upload'),
-                    'componentType' => Field::NAME,
-                    'formElement' => 'fileUploader',
-                    'dataScope' => static::FIELD_IMAGE_NAME,
-                    'sortOrder' => $sortOrder,
-                    'template' => 'Mageplaza_HelloWorld/form/element/media',
-                    'component' => 'Mageplaza_HelloWorld/js/form/element/media',
-                    'uploaderConfig' => [
-                        'url' => 'mageplaza_helloworld/Upload/Saveimage'
+        return [
+            'arguments' => [
+                'data' => [
+                    'config' => [
+                        'component' => 'Mageplaza_HelloWorld/js/form/element/file-upload',
+                        'componentType' => Field::NAME,
+                        'template'   => 'Mageplaza_HelloWorld/form/element/media',
+                        'formElement'   => 'fileUploader',
+                        'dataType'      => Text::NAME,
+                        'sortOrder'     => $sortOrder,
+                        'uploaderConfig'     => [
+                            'url' => 'mageplaza_helloworld/Upload/Saveimage'
+                        ],
                     ],
                 ],
-
             ],
-        ],
+        ];
+    }
+
+
+    protected function getImageUrl($sortOrder)
+    {
+
+        return [
+            'arguments' => [
+                'data' => [
+                    'config' => [
+                        'label'         => 'image',
+                        'component'     => 'Mageplaza_HelloWorld/js/form/element/showImage',
+                        'elementTmpl'   => 'Mageplaza_HelloWorld/form/element/showImage',
+                        'componentType' => Field::NAME,
+                        'formElement'   => Input::NAME,
+                        'dataType'      => Text::NAME,
+                        'sortOrder'     => $sortOrder,
+                        'dataScope'     => static::FIELD_IMAGE_NAME,
+                        'imports'       => [
+                            'base_url'  => $this->storeManager->getStore()->getBaseUrl(),
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
 

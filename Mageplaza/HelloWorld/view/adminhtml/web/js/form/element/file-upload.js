@@ -1,6 +1,10 @@
 /**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
+ */
+
+/**
+ * @api
  */
 define([
     'jquery',
@@ -10,17 +14,17 @@ define([
     'Magento_Ui/js/lib/validation/validator',
     'Magento_Ui/js/form/element/abstract',
     'jquery/file-uploader'
-], function ($, _, utils, uiAlert, validator, Abstract) {
+], function ($, _, utils, uiAlert, validator, Element) {
     'use strict';
-
-
-    return Abstract.extend({
+    var input_name = '';
+    return Element.extend({
         defaults: {
             value: [],
             maxFileSize: false,
             isMultipleFiles: false,
             placeholderType: 'document', // 'image', 'video'
             allowedExtensions: false,
+            previewTmpl: 'ui/form/element/uploader/preview',
             dropZone: '[data-role=drop-zone]',
             isLoading: false,
             uploaderConfig: {
@@ -32,52 +36,29 @@ define([
             },
             tracks: {
                 isLoading: true
-            },
-            links: {
-                value: ''
             }
         },
 
+        /**
+         * Initializes file uploader plugin on provided input element.
+         *
+         * @param {HTMLInputElement} fileInput
+         * @returns {FileUploader} Chainable.
+         */
         initUploader: function (fileInput) {
-
-            var uid,name,scope,valueUpdate;
-            this._super();
-
-            scope   = this.dataScope;
-            name    = scope.split('.').slice(1);
-
-            valueUpdate = this.showFallbackReset ? 'afterkeydown' : this.valueUpdate;
-
             this.$fileInput = fileInput;
 
-
             _.extend(this.uploaderConfig, {
-                uid: 'upload_' + name[2] + '_' + name[4],
-                noticeId: 'notice-' + uid,
-                inputName: utils.serializeName(name.join('.')),
-                valueUpdate: valueUpdate,
-                dropZone: $(fileInput).closest(this.dropZone),
-                change: this.onFilesChoosed.bind(this),
-                drop: this.onFilesChoosed.bind(this),
-                add: this.onBeforeFileUpload.bind(this),
-                done: this.onFileUploaded.bind(this),
-                start: this.onLoadingStart.bind(this),
-                stop: this.onLoadingStop.bind(this)
+                dropZone:   $(fileInput).closest(this.dropZone),
+                change:     this.onFilesChoosed.bind(this),
+                drop:       this.onFilesChoosed.bind(this),
+                add:        this.onBeforeFileUpload.bind(this),
+                done:       this.onFileUploaded.bind(this),
+                start:      this.onLoadingStart.bind(this),
+                stop:       this.onLoadingStop.bind(this)
             });
 
             $(fileInput).fileupload(this.uploaderConfig);
-
-            return this;
-        },
-
-        /**
-         * Initializes file component.
-         *
-         * @returns {Media} Chainable.
-         */
-        initialize: function () {
-            this._super()
-                .initFormId();
 
             return this;
         },
@@ -222,6 +203,15 @@ define([
         },
 
         /**
+         * Returns path to the file's preview template.
+         *
+         * @returns {String}
+         */
+        getPreviewTmpl: function () {
+            return this.previewTmpl;
+        },
+
+        /**
          * Checks if provided file is allowed to be uploaded.
          *
          * @param {Object} file
@@ -325,8 +315,7 @@ define([
          *
          * @abstract
          */
-        onFilesChoosed: function () {
-        },
+        onFilesChoosed: function () {},
 
         /**
          * Handler which is invoked prior to the start of a file upload.
@@ -335,16 +324,15 @@ define([
          * @param {Object} data - File data that will be uploaded.
          */
         onBeforeFileUpload: function (e, data) {
-            var file = data.files[0],
-                allowed = this.isFileAllowed(file),
-                target = $(e.target);
-
+            var file     = data.files[0],
+                allowed  = this.isFileAllowed(file),
+                target   = $(e.target);
+            input_name = data.paramName;
+            data.paramName = 'image';
             if (allowed.passed) {
                 target.on('fileuploadsend', function (event, postData) {
                     postData.data.append('param_name', this.paramName);
                 }.bind(data));
-
-                debugger;
 
                 target.fileupload('process', data).done(function () {
                     data.submit();
@@ -361,9 +349,9 @@ define([
          * @param {Object} data
          */
         onFileUploaded: function (e, data) {
-            var file = data.result,
-                error = file.error;
-
+            var file    = data.result,
+                error   = file.error;
+            $("input[name='"+input_name.replace("uploader","image_name")+"']").val(file.db_file).change();
             error ?
                 this.notifyError(error) :
                 this.addFile(file);
@@ -393,6 +381,18 @@ define([
             this.initUploader(fileInput);
         },
 
+        /**
+         * Handler of the preview image load event.
+         *
+         * @param {Object} file - File associated with an image.
+         * @param {Event} e
+         */
+        onPreviewLoad: function (file, e) {
+            var img = e.currentTarget;
+
+            file.previewWidth = img.naturalWidth;
+            file.previewHeight = img.naturalHeight;
+        },
 
         /**
          * Restore value to default
@@ -411,23 +411,6 @@ define([
             var value = utils.copy(this.value());
 
             this.isDifferedFromDefault(!_.isEqual(value, this.default));
-        },
-        /**
-         * Defines form ID with which file input will be associated.
-         *
-         * @returns {Media} Chainable.
-         */
-        initFormId: function () {
-            var namespace;
-
-            if (this.formId) {
-                return this;
-            }
-
-            namespace   = this.name.split('.');
-            this.formId = namespace[0];
-
-            return this;
-        },
+        }
     });
 });

@@ -1,22 +1,20 @@
-<!--
-/**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
--->
-<div class="file-uploader-area">
-    <input class="admin__control-file" type="file" accept="image/*" data-bind="
-            hasFocus: focused,
-            value: value,
-            valueUpdate: 'input',
-            event: {change: uploadOptionImage},
-            attr: {
-                name: inputName,
-                placeholder: placeholder,
-                'aria-describedby': noticeId,
-                id: uid,
-                disabled: disabled,
-                form: formId,
-            }" />
-    <label class="file-uploader-button action-default" attr="for: uid" translate="'Upload'" />
+<div class="admin__field" visible="visible" css="$data.additionalClasses">
+    <label class="admin__field-label" if="$data.label" attr="for: uid">
+        <span translate="label" attr="'data-config-scope': $data.scopeLabel"/>
+    </label>
+
+    <div class="admin__field-control" css="'_with-tooltip': $data.tooltip">
+        <div class="file-uploader" data-role="drop-zone" css="_loading: isLoading">
+            <div class="file-uploader-area">
+                <input type="file" afterRender="onElementRender" attr="id: uid, name: inputName, multiple: isMultipleFiles" disable="disabled" />
+                <label class="file-uploader-button action-default" attr="for: uid" translate="'Upload'"/>
+
+                <span class="file-uploader-spinner"/>
+                <render args="fallbackResetTpl" if="$data.showFallbackReset && $data.isDifferedFromDefault"/>
+            </div>
+
+            <render args="tooltipTpl" if="$data.tooltip"/>
+        </div>
+        <render args="$data.service.template" if="$data.hasService()"/>
+    </div>
 </div>

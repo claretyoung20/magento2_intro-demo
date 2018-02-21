@@ -179,6 +179,7 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\Type\Select
 
     public function getImageColorDisplayMOde($display_mode, $image, $color){
         $mode = '';
+        $imgUrl = $this->_storeManager->getStore()->getBaseUrl().'pub/media/'.$image;
 
         if($display_mode == 'color'){
             $mode .= '<div' .
@@ -186,7 +187,7 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\Type\Select
                 'width: 40px; height: 40px; float: right;"></div>';
         }
         else if($display_mode == 'image'){
-            $mode .= '<img src="'.$image.'" style=" width: 40px; height: 40px; float: right;" >';
+            $mode .= '<img src="'.$imgUrl.'" style=" width: 40px; height: 40px; float: right;" >';
         }else{
             $mode .= '<div' .
                 ' style="background-color:white; ' .
