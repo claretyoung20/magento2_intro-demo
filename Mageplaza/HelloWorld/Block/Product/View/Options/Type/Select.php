@@ -54,14 +54,35 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\Type\Select
                     ],
                     false
                 );
-                $select->addOption(
-                    $_value->getOptionTypeId(),
-                    $_value->getTitle() . ' ' . strip_tags($priceStr).' '.$_value->getColor() ,
-                    ['price' => $this->pricingHelper->currencyByStore($_value->getPrice(true), $store, false)]
-                );
+
+
+                if ($_value->getDisplayMode() == 'image'){
+                    $select->addOption(
+                        $_value->getOptionTypeId(),
+                        $_value->getTitle() . ' ' . strip_tags($priceStr) . '',
+                        ['price'    => $this->pricingHelper->currencyByStore($_value->getPrice(true), $store, false),
+                            'data-src' => 'image||' . $this->_storeManager->getStore()->getBaseUrl().'pub/media/'.$_value->getImageName()
+                        ]
+                    );
+                }
+                else{
+                    $select->addOption(
+                        $_value->getOptionTypeId(),
+                        $_value->getTitle() . ' ' . strip_tags($priceStr) . '',
+                        ['price'    => $this->pricingHelper->currencyByStore($_value->getPrice(true), $store, false),
+                            'data-src' => 'color||'.$_value->getColor()
+                        ]
+                    );
+                }
+
             }
+
             if ($_option->getType() == \Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_TYPE_MULTIPLE) {
                 $extraParams = ' multiple="multiple"';
+                $extraParams .= ' onchange="multiImageDisplay(this,'.$_option->getId().');" ';
+            }
+            else{
+                $extraParams .= ' onchange="singleImageDisplay(this,'.$_option->getId().');" ';
             }
             if (!$this->getSkipJsReloadPrice()) {
                 $extraParams .= ' onchange="opConfig.reloadPrice()"';

@@ -1,10 +1,11 @@
-function displaymutilimage(element, optid) {
-    jQuery('#preview-' + optid).html('');
+function multiImageDisplay(element, optid) {
+
+    jQuery('#displayImageCusOptn').html('');
     var list = [];
     jQuery('#select_' + optid+' option:selected').each(function () {
         list.push(jQuery(this).attr('data-src'));
     });
-    // console.log(jQuery('#select_' + optid).val());
+
     list.forEach(function (element) {
         var data = element.split('||');
         if(data[0] == 'image'){
@@ -13,24 +14,27 @@ function displaymutilimage(element, optid) {
         if(data[0] == 'color'){
             var html = '<span style="background: '+data[1]+'; width: 50px; height: 50px; display: inline-block; margin-right: 5px;"></span>';
         }
-        jQuery('#preview-' + optid).append(html);
+        jQuery('#displayImageCusOptn').append(html);
     });
-    jQuery('#preview-' + optid).show();
+    jQuery('#displayImageCusOptn').show();
+
+
+
 }
 
-function displaysingleimage(element,optid) {
-    jQuery('#preview-' + optid).html('');
+function singleImageDisplay(element,optid) {
+    jQuery('#displayImageCusOptn').html('');
     var src = jQuery('#select_' + optid+' option:selected').attr('data-src');
     var data = '';
     if(src != null){
         data = src.split('||');
     }
     if(data[0] == 'image'){
-        var html = '<img src="'+data[1]+'" width="50px" height="50px"/>';
+        var html = '<img src="'+data[1]+'" width="40px" height="40px"/>';
     }
     if(data[0] == 'color'){
-        var html = '<span style="background: '+data[1]+'; width: 50px; height: 50px; display: inline-block;"></span>';
+        var html = '<span style="background: '+data[1]+'; width: 40px; height: 40px; display: inline-block;"></span>';
     }
-    jQuery('#preview-' + optid).append(html);
-    jQuery('#preview-' + optid).show();
+    jQuery('#displayImageCusOptn').append(html);
+    jQuery('#displayImageCusOptn').show();
 }

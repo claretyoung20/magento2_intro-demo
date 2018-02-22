@@ -82,6 +82,18 @@ interface ProductCustomOptionInterface extends \Magento\Framework\Api\Extensible
      */
     const OPTION_TYPE_TIME = 'time';
 
+    /* my code */
+
+    const OPTION_TYPE_THUMB_GALLERY = 'thumb_gallery';
+
+    const OPTION_TYPE_THUMB_GALLERY_POPUP = 'thumb_gallery_popup';
+
+    const OPTION_TYPE_THUMB_GALLERY_MULTI = 'thumb_gallery_multi';
+
+
+    /* end of my code*/
+
+
     /**
      * Get product SKU
      *

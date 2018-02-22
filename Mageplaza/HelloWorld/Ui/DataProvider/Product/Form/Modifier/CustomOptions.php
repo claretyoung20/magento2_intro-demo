@@ -7,26 +7,13 @@
 namespace Mageplaza\HelloWorld\Ui\DataProvider\Product\Form\Modifier;
 
 
-use Magento\Catalog\Model\Locator\LocatorInterface;
-use Magento\Store\Model\StoreManagerInterface;
-use Magento\Catalog\Model\ProductOptions\ConfigInterface;
-use Magento\Catalog\Model\Config\Source\Product\Options\Price as ProductOptionsPrice;
-use Magento\Framework\UrlInterface;
-use Magento\Framework\Stdlib\ArrayManager;
-use Magento\Ui\Component\Modal;
 use Magento\Ui\Component\Container;
-use Magento\Ui\Component\DynamicRows;
-use Magento\Ui\Component\Form\Fieldset;
+use Magento\Ui\Component\DynamicRows;;
 use Magento\Ui\Component\Form\Field;
 use Magento\Ui\Component\Form\Element\Input;
 use Magento\Ui\Component\Form\Element\Select;
-use Magento\Ui\Component\Form\Element\Checkbox;
-use Magento\Ui\Component\Form\Element\ActionDelete;
 use Magento\Ui\Component\Form\Element\DataType\Text;
-use Magento\Ui\Component\Form\Element\DataType\Number;
-use Magento\Framework\Locale\CurrencyInterface;
-use Mageplaza\HelloWorld\Ui\Component\Form\Element\DataType\Color;
-use Mageplaza\HelloWorld\Ui\Component\Form\Element\DataType\File;
+
 
 
 class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\CustomOptions
@@ -43,44 +30,7 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
     const FIELD_MODE_IMAGE = 'image';
     const FIELD_FILE_UPLOADER = 'fileUpload';
 
-    /**
-     * CustomOptions constructor.
-     * @param LocatorInterface $locator
-     * @param StoreManagerInterface $storeManager
-     * @param ConfigInterface $productOptionsConfig
-     * @param ProductOptionsPrice $productOptionsPrice
-     * @param UrlInterface $urlBuilder
-     * @param ArrayManager $arrayManager
-     */
-    public function __construct(
-        LocatorInterface $locator,
-        StoreManagerInterface $storeManager,
-        ConfigInterface $productOptionsConfig,
-        ProductOptionsPrice $productOptionsPrice,
-        UrlInterface $urlBuilder,
-        ArrayManager $arrayManager
-    )
-    {
-        parent::__construct($locator, $storeManager, $productOptionsConfig, $productOptionsPrice, $urlBuilder, $arrayManager);
-    }
 
-    public function showImage($sortOrder)
-    {
-        return ['arguments' => [
-            'data' => [
-                'config' => [
-                    'label' => __('Upload'),
-                    'componentType' => Field::NAME,
-                    'formElement' => File::NAME,
-                    'dataScope' => static::FIELD_IMAGE_NAME,
-                    'sortOrder' => $sortOrder,
-                    'template' => 'Mageplaza_HelloWorld/form/element/showImage',
-                    'component' => 'Mageplaza_HelloWorld/js/form/element/showImage'
-                ],
-            ],
-        ],
-        ];
-    }
 
     protected function getSelectTypeGridConfig($sortOrder)
     {
@@ -196,29 +146,6 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
         ];
     }
 
-    /**
-     * @param $sortOrder
-     * @return array
-     */
-    protected function getImageNameFieldConfig($sortOrder)
-    {
-        return [
-            'arguments' => [
-                'data' => [
-                    'config' => [
-                        'label' => __('Image'),
-                        'componentType' => Field::NAME,
-                        'formElement' => Input::NAME,
-                        'dataScope' => static::FIELD_IMAGE_NAME,
-                        'sortOrder' => $sortOrder,
-                        'template' => 'Mageplaza_HelloWorld/form/element/showImage',
-                        'component' => 'Mageplaza_HelloWorld/js/form/element/showImage'
-                    ],
-                ],
-            ],
-        ];
-    }
-
 
     /**
      * @param $sortOrder
@@ -271,6 +198,82 @@ class CustomOptions extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifi
         return [
             ['value' => self::FIELD_MODE_IMAGE, 'label' => __('Image')],
             ['value' => self::FIELD_MODE_COLOR, 'label' => __('Color')],
+        ];
+    }
+
+    /**
+     * Get config for "Option Type" field
+     *
+     * @param int $sortOrder
+     * @return array
+     * @since 101.0.0
+     */
+    protected function getTypeFieldConfig($sortOrder)
+    {
+        return [
+            'arguments' => [
+                'data' => [
+                    'config' => [
+                        'label' => __('Option Type'),
+                        'componentType' => Field::NAME,
+                        'formElement' => Select::NAME,
+                        'component' => 'Magento_Catalog/js/custom-options-type',
+                        'elementTmpl' => 'ui/grid/filters/elements/ui-select',
+                        'selectType' => 'optgroup',
+                        'dataScope' => static::FIELD_TYPE_NAME,
+                        'dataType' => Text::NAME,
+                        'sortOrder' => $sortOrder,
+                        'options' => $this->getProductOptionTypes(),
+                        'disableLabel' => true,
+                        'multiple' => false,
+                        'selectedPlaceholders' => [
+                            'defaultPlaceholder' => __('-- Please select --'),
+                        ],
+                        'validation' => [
+                            'required-entry' => true
+                        ],
+                        'groupsConfig' => [
+                            'text' => [
+                                'values' => ['field', 'area'],
+                                'indexes' => [
+                                    static::CONTAINER_TYPE_STATIC_NAME,
+                                    static::FIELD_PRICE_NAME,
+                                    static::FIELD_PRICE_TYPE_NAME,
+                                    static::FIELD_SKU_NAME,
+                                    static::FIELD_MAX_CHARACTERS_NAME
+                                ]
+                            ],
+                            'file' => [
+                                'values' => ['file'],
+                                'indexes' => [
+                                    static::CONTAINER_TYPE_STATIC_NAME,
+                                    static::FIELD_PRICE_NAME,
+                                    static::FIELD_PRICE_TYPE_NAME,
+                                    static::FIELD_SKU_NAME,
+                                    static::FIELD_FILE_EXTENSION_NAME,
+                                    static::FIELD_IMAGE_SIZE_X_NAME,
+                                    static::FIELD_IMAGE_SIZE_Y_NAME
+                                ]
+                            ],
+                            'select' => [
+                                'values' => ['drop_down', 'radio', 'checkbox', 'multiple','thumb_gallery', 'thumb_gallery_popup', 'thumb_gallery_multi'],
+                                'indexes' => [
+                                    static::GRID_TYPE_SELECT_NAME
+                                ]
+                            ],
+                            'data' => [
+                                'values' => ['date', 'date_time', 'time'],
+                                'indexes' => [
+                                    static::CONTAINER_TYPE_STATIC_NAME,
+                                    static::FIELD_PRICE_NAME,
+                                    static::FIELD_PRICE_TYPE_NAME,
+                                    static::FIELD_SKU_NAME
+                                ]
+                            ]
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
 }

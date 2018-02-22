@@ -18,4 +18,5 @@
     <preference for="Magento\Catalog\Model\Product\Option\Value"	type="Mageplaza\HelloWorld\Model\Product\Option\Value" />
     <preference for="Magento\Catalog\Block\Product\View\Options\Type\Select" type="Mageplaza\HelloWorld\Block\Product\View\Options\Type\Select" />
     <preference for="Magento\Catalog\Model\Product\Option" type="Mageplaza\HelloWorld\Model\Product\Option" />
+    <!--<preference for="Magento\Catalog\Api\Data\ProductCustomOptionInterface" type="Mageplaza\HelloWorld\Api\Data\ProductCustomOptionInterface" />-->
 </config>
