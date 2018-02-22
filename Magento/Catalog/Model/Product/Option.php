@@ -307,6 +307,12 @@ class Option extends AbstractExtensibleModel implements ProductCustomOptionInter
             self::OPTION_TYPE_RADIO => self::OPTION_GROUP_SELECT,
             self::OPTION_TYPE_CHECKBOX => self::OPTION_GROUP_SELECT,
             self::OPTION_TYPE_MULTIPLE => self::OPTION_GROUP_SELECT,
+
+            self::OPTION_TYPE_THUMB_GALLERY => self::OPTION_GROUP_SELECT,
+            self::OPTION_TYPE_THUMB_GALLERY_POPUP => self::OPTION_GROUP_SELECT,
+            self::OPTION_TYPE_THUMB_GALLERY_MULTI => self::OPTION_GROUP_SELECT,
+
+
             self::OPTION_TYPE_DATE => self::OPTION_GROUP_DATE,
             self::OPTION_TYPE_DATE_TIME => self::OPTION_GROUP_DATE,
             self::OPTION_TYPE_TIME => self::OPTION_GROUP_DATE,

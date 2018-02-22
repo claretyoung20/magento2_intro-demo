@@ -196,6 +196,12 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\Type\Select
 
             return $selectHtml;
         }
+        if ($_option->getType() == \Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_TYPE_THUMB_GALLERY ||
+            $_option->getType() == \Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_TYPE_THUMB_GALLERY_POPUP
+        ) {
+            return '<p> hello world </p>';
+        }
+
     }
 
     public function getImageColorDisplayMOde($display_mode, $image, $color){
@@ -216,6 +222,7 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\Type\Select
         }
         return $mode;
     }
+
 
 
 }
